@@ -1,0 +1,31 @@
+{
+  "name": "book-tracker",
+  "version": "1.0.0",
+  "description": "The Book Notes Tracker is a full-stack web application that helps me log, review, and reflect on the books I have read.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ladykays/Book-Tracker.git"
+  },
+  "author": "N. K. Siokwu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ladykays/Book-Tracker/issues"
+  },
+  "homepage": "https://github.com/ladykays/Book-Tracker#readme",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.11",
+    "axios": "^1.11.0",
+    "body-parser": "^2.2.0",
+    "dotenv": "^17.2.1",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "pg": "^8.16.3",
+    "tailwindcss": "^4.1.11"
+  }
+}
