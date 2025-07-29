@@ -3,7 +3,6 @@ import bodyParser from "body-parser";
 import fetch from "node-fetch";
 import pool from "./db/db.js";
 
-
 const app = express();
 const port = 3000;
 
@@ -33,8 +32,6 @@ async function fetchImage(url) {
       throw new Error(`Image fetch failed: ${err.message}`);
   }
 }
-
-
 
 app.get("/", async(req, res) => {
   try {
