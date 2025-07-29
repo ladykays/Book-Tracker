@@ -1,12 +1,20 @@
-<% if (books && books.length > 0) { %> 
+<% if (books) { %> 
   <% books.forEach((book) => { %>
-    <div class="flex w-full h-50 rounded-lg bg-gray-100 shadow overflow-hidden">
-      <div dir="ltr" class="bg-blue-100 overflow-hidden">
+    <div class="flex w-full h-70 rounded-lg bg-gray-100 shadow overflow-hidden">
+      <div dir="ltr" class=" overflow-hidden w-2/5">
         <!-- <img src="https://placehold.co/400x800/orange/white" alt="book cover" class="w-full h-full object-cover rounded-s-xl" /> -->
-        <img src="<%= book.cover_url %>" alt="book cover" class="w-full h-full object-cover rounded-s-xl" />
+        <img src="<%= book.cover_url %>" alt="book cover" class="w-full h-full object-cover rounded-s-2xl" />
       </div>
-      <div dir="rtl">
-        <p class="rounded-s-lg">Title jhja</p>
+      <div dir="rtl"  class="text-left w-3/5">
+        <div class="rounded-s-lg p-4">
+          <h2 class="text-2xl font-medium "><%= book.title %></h2>
+          <p class="font-light"><%= book.author %></p>
+          <div class="">
+            <%- renderStars(book.rating) %>
+          </div>
+          <p class=""><%= book.notes %></p>
+
+        </div>
       </div>
     </div> 
   <% }) %>
