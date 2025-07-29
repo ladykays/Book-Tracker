@@ -1,0 +1,17 @@
+<%- include ("partials/header.ejs") %>
+    <main class="flex justify-center items-center my-30">
+      <div class="flex flex-col  justify-center items-center w-8/12 bg-blue-100">
+        <div class="flex justify-center items-center w-20 h-20 bg-blue-200 rounded-full">
+          <i class="bi bi-book text-4xl text-blue-700"></i>
+        </div>
+        <div class="text-center py-5">
+          <h1 class="font-bold text-2xl pb-5">No books yet</h1>
+          <p class="pb-5">Start tracking your reading journey by adding books you've read. You can add notes, ratings, and more.</p>
+          <button class="bg-blue-700 text-white rounded-lg px-8 py-3">Add Your First Book</button>
+        </div>
+        <!-- Display Books -->
+        <%- include("partials/addBookForm.ejs") %>
+      </div>
+    </main>
+  </body>
+</html>

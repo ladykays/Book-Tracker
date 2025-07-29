@@ -1,23 +1,26 @@
 <%- include("partials/header.ejs") %>
-<main class="flex justify-center items-center my-30">
-  <!-- No Books Yet -->
-  <div class="flex flex-col  justify-center items-center w-8/12 bg-blue-100">
-    <div class="flex justify-center items-center w-20 h-20 bg-blue-200 rounded-full">
-      <i class="bi bi-book text-4xl text-blue-700"></i>
+<main class="flex flex-col justify-center items-center my-10">
+  <div class="flex justify-between items-center w-8/12 p-4">
+    <h3 class="font-semibold text-xl w-1/3">Your Books</h3>
+    <div class="flex justify-end items-center gap-8 w-2/3">
+      <p class="">Sort by:</p>
+      <div class="flex gap-2 p-4 bg-blue-100">
+        <i class="bi bi-clock"></i>
+        <p>Recent</p>
+      </div>
+      <div class="flex gap-2">
+        <i class="bi bi-clock"></i>
+        <p>Rating</p>
+      </div>
+      <div class="flex gap-2">
+        <i class="bi bi-clock"></i>
+        <p>Title</p>
+      </div>
     </div>
-    <div class="text-center py-5">
-      <h1 class="font-bold text-2xl pb-5">No books yet</h1>
-      <p class="pb-5">Start tracking your reading journey by adding books you've read. You can add notes, ratings, and more.</p>
-      <button class="bg-blue-700 text-white rounded-lg px-8 py-3">Add Your First Book</button>
-    </div>
-
-    <!-- Display Books -->
-    <%- include("partials/addBookForm.ejs") %>
-    
   </div>
-
-  
-  
+  <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-8/12">
+    <%- include("partials/bookCard.ejs") %>
+  </div>
 </main>
   
 </body>
