@@ -11,6 +11,15 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
+//render stars
+app.locals.renderStars = (rating) => {
+  let stars = "";
+  for (let i = 5; i >= 1; i--) { //count down from 5 so the filled stars are first
+    stars += i <= rating ? '<i class="bi bi-star-fill text-xl text-amber-400"></i>' : '<i class="bi bi-star text-xl"></i>'
+  }
+  return stars;
+}
+
 //Fetch image from API
 async function fetchImage(url) {
   try {
@@ -24,6 +33,8 @@ async function fetchImage(url) {
       throw new Error(`Image fetch failed: ${err.message}`);
   }
 }
+
+
 
 app.get("/", async(req, res) => {
   try {
@@ -45,7 +56,7 @@ app.get("/", async(req, res) => {
     });
     console.log("MY BOOKS: ", myBooks);
     
-    if (myBooks.length > 1) {
+    if (myBooks.length > 0) {
       res.render("index.ejs", { books: myBooks});
     } else {
       res.render("noBooks.ejs");
