@@ -1,0 +1,31 @@
+<div class="bg-blue-50 w-10/12">
+  <div class="p-5">
+    <div class="flex justify-between">
+      <h2 class="font-bold">Add New Book</h2>
+      <i class="bi bi-x-lg"></i>
+    </div>
+    <form id="addBook" method="post" action="/" class="">
+      <div class="flex flex-col pt-5">
+        <label for="title">Title *</label>
+        <input type="text" name="title" value="<%= locals.title %>" class="w-11/12 bg-blue-100 p-2 rounded-lg">
+      </div>
+      <div class="flex flex-col pt-5">
+        <label for="author">Author *</label>
+        <input type="text" name="author" value="<%= locals.author %>" class="w-11/12 bg-blue-100 p-2 rounded-lg">
+      </div>
+      <div class="flex flex-col pt-5">
+        <label for="isbn">ISBN </label>
+        <input type="text" name="isbn" value="<%=locals.isbn%>" placeholder="e.g., 9780061120084 " class="w-11/12 bg-blue-100 p-2 rounded-lg">
+      </div>
+      <div class="flex flex-col pt-5">
+        <label for="rating">Rating</label>
+        <input type="number" name="rating" value="<%= locals.rating %>" class="w-11/12 bg-blue-100 p-2 rounded-lg">
+      </div>
+      <div class="flex flex-col pt-5">
+        <label for="notes">Notes</label>
+        <textarea type="text" name="notes" value="<%= locals.notes %>" class="w-11/12 bg-blue-100 p-2 rounded-lg" rows="10"></textarea>
+      </div>
+      <button type="submit" class="bg-blue-700 text-white rounded-lg px-8 py-3">Submit</button>
+    </form>
+  </div>
+</div>
