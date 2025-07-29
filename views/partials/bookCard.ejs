@@ -1,0 +1,14 @@
+<% if (books && books.length > 0) { %> 
+  <% books.forEach((book) => { %>
+    <div class="flex w-full h-50 rounded-lg bg-gray-100 shadow overflow-hidden">
+      <div dir="ltr" class="bg-blue-100 overflow-hidden">
+        <!-- <img src="https://placehold.co/400x800/orange/white" alt="book cover" class="w-full h-full object-cover rounded-s-xl" /> -->
+        <img src="<%= book.cover_url %>" alt="book cover" class="w-full h-full object-cover rounded-s-xl" />
+      </div>
+      <div dir="rtl">
+        <p class="rounded-s-lg">Title jhja</p>
+      </div>
+    </div> 
+  <% }) %>
+<% } %> 
+

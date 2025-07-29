@@ -25,8 +25,34 @@ async function fetchImage(url) {
   }
 }
 
-app.get("/", (req, res) => {
-  res.render("index.ejs");
+app.get("/", async(req, res) => {
+  try {
+    const result = await pool.query(
+      "SELECT book.title, book.author, book.rating, book.notes, image.cover_url  FROM book JOIN image ON book.isbn=image.isbn;"
+    );
+    console.log("Books: ", result.rows);
+
+    let myBooks = [];
+
+    result.rows.map((myBook) => {
+      myBooks.push({
+        title: myBook.title, 
+        author: myBook.author, 
+        rating: myBook.rating, 
+        notes: myBook.notes, 
+        cover_url: myBook.cover_url 
+      });
+    });
+    console.log("MY BOOKS: ", myBooks);
+    
+    if (myBooks.length > 1) {
+      res.render("index.ejs", { books: myBooks});
+    } else {
+      res.render("noBooks.ejs");
+    }
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 app.post("/", async(req, res) => {
