@@ -17,7 +17,7 @@ app.locals.renderStars = (rating) => {
     stars += i <= rating ? '<i class="bi bi-star-fill text-xl text-amber-400"></i>' : '<i class="bi bi-star text-xl"></i>'
   }
   return stars;
-}
+};
 
 //Fetch image from API
 async function fetchImage(url) {
@@ -54,7 +54,10 @@ app.get("/", async(req, res) => {
     console.log("MY BOOKS: ", myBooks);
     
     if (myBooks.length > 0) {
-      res.render("index.ejs", { books: myBooks});
+      res.render("index.ejs", { 
+        books: myBooks,
+        renderStars: app.locals.renderStars,
+      });
     } else {
       res.render("noBooks.ejs");
     }
