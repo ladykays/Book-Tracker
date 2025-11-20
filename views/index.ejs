@@ -21,7 +21,55 @@
   <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-8/12">
     <%- include("partials/bookCard.ejs") %>
   </div>
+  <%- include("partials/bookModal.ejs") %>
 </main>
   
+<script>
+// Add book modal functionality
+document.addEventListener('DOMContentLoaded', function() { // Wait for DOM to be fully loaded
+  const addBookBtn = document.getElementById('addBookBtn');
+  const addBookModal = document.getElementById('addBookModal');
+  const modalContent = addBookModal.getElementById('modalContent');
+
+  //open Add Book Modal
+  addBookBtn.addEventListener('click', function() {
+    fetch('/add-book-form')
+    .then(response => response.text())
+    .then(html => {
+      modalContent.innerHTML = html;
+      addBookModal.classList.remove('hidden');
+      addBookModal.classList.add('block');
+      document.body.style.overflow = 'hidden';
+
+      //close button event listener
+      const closeBtn = modalContent.getElementById('closeBtn');
+      if (closeBtn) {
+        closeBtn.addEventListener('click', closeAddBookModal);
+      }
+
+      //event listener for modal
+      addBookModal.addEventListener('click', function(e) {
+        if (e.target === addBookModal) {
+          closeAddBookModal();
+        }
+      });
+    })
+    .catch(error => {
+      console.error('Error loading form', error);
+    });
+  });
+
+  //close add book modal function
+  function closeAddBookModal() {
+    addBookModal.classList.remove('block');
+    addBookModal.classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+
+  //make function available globally
+  window.closeAddBookModal = closeAddBookModal;
+});
+</script>
+
 </body>
 </html>

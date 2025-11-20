@@ -12,7 +12,19 @@
     <div class="flex justify-center items-center py-5">
       <div class="flex justify-between items-center w-8/12">
         <h1 class="text-2xl">My Book Tracker</h1>
-        <button class="bg-blue-700 text-white font-medium px-8 py-4">Add Book</button>
+        <button 
+          class="bg-blue-700 text-white font-medium px-8 py-4 cursor-pointer"
+          id="addBookBtn"
+        >
+          Add Book
+        </button>
       </div> 
     </div>
   </nav>
+
+  <!-- Add Book Modal -->
+  <div id="addBookModal" class="fixed hidden inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+    <div class="relative top-10 mx-auto p-5 w-3/4 max-w-2xl" id="modalContent">
+      <!-- Modal content will be loaded here -->
+    </div>
+  </div>

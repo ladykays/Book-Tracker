@@ -20,6 +20,7 @@
   "homepage": "https://github.com/ladykays/Book-Tracker#readme",
   "dependencies": {
     "@tailwindcss/cli": "^4.1.11",
+    "@tailwindplus/elements": "^1.0.3",
     "axios": "^1.11.0",
     "body-parser": "^2.2.0",
     "bootstrap-icons": "^1.13.1",
