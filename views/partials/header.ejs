@@ -1,30 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Book Note Tracker</title>
-  <link rel="stylesheet" href="/css/bootstrap-icons/bootstrap-icons.css">
-  <link rel="stylesheet" href="./css/output.css">
-</head>
-<body>
-  <nav class="bg-gray-300 h-auto ">
-    <div class="flex justify-center items-center py-5">
-      <div class="flex justify-between items-center w-8/12">
-        <h1 class="text-2xl">My Book Tracker</h1>
-        <button 
-          class="bg-blue-700 text-white font-medium px-8 py-4 cursor-pointer"
-          id="addBookBtn"
-        >
-          Add Book
-        </button>
-      </div> 
-    </div>
-  </nav>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book Note Tracker</title>
+    <link rel="stylesheet" href="/css/bootstrap-icons/bootstrap-icons.css" />
+    <link rel="stylesheet" href="./css/output.css" />
+  </head>
+  <body>
+    <nav class="bg-gray-300 h-auto">
+      <div class="flex justify-center items-center py-5">
+        <div class="flex justify-between items-center w-8/12">
+          <h1 class="text-2xl">My Book Tracker</h1>
+          <button
+            class="flex items-center bg-blue-700 text-white font-medium px-5 py-3 cursor-pointer rounded-lg"
+            id="addBookBtn"
+          >
+            <svg
+              width="24px"
+              height="24px"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g id="Edit / Add_Plus">
+                <path
+                  id="Vector"
+                  d="M6 12H12M12 12H18M12 12V18M12 12V6"
+                  stroke="#fff"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </g>
+            </svg>
+            <p class="text-xxl">Add Book</p>
+          </button>
+        </div>
+      </div>
+    </nav>
 
-  <!-- Add Book Modal -->
-  <div id="addBookModal" class="fixed hidden inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-    <div class="relative top-10 mx-auto p-5 w-3/4 max-w-2xl" id="modalContent">
-      <!-- Modal content will be loaded here -->
+    <!-- Add Book Modal -->
+    <div
+      id="addBookModal"
+      class="fixed hidden inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50"
+    >
+      <div
+        class="relative top-10 mx-auto p-5 w-3/4 max-w-2xl"
+        id="modalContent"
+      >
+        <!-- Modal content will be loaded here -->
+      </div>
     </div>
-  </div>
+  </body>
+</html>
