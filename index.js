@@ -66,6 +66,15 @@ app.get("/", async(req, res) => {
   }
 });
 
+app.get("/recent", async(req, res) => {
+  try {
+    result = await pool.query("SELECT * FROM book");
+    console.log("Recent: ", result.rows)
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 app.post("/", async(req, res) => {
   //Object that contains all the input from the front end
   const newBook = {
