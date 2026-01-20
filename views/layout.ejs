@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book Note Tracker</title>
+    <link rel="stylesheet" href="/css/bootstrap-icons/bootstrap-icons.css" />
+    <link rel="stylesheet" href="./css/output.css" />
+  </head>
+  <body>
+    <%- include("partials/header.ejs") %> <%- include("index.ejs") %>
+
+    <!-- Add Book Modal -->
+    <div
+      id="addBookModal"
+      class="fixed inset-0 z-50 hidden flex items-center justify-center"
+    >
+      <!-- Semi-transparent overlay -->
+      <div class="absolute inset-0 bg-blue-900/50" id="modalOverlay"></div>
+
+      <!-- Modal content -->
+      <div
+        class="relative z-10 bg-white rounded-xl shadow-2xl w-full max-w-2xl"
+        id="modalContent"
+      >
+        <%- include("addBookForm.ejs") %>
+      </div>
+    </div>
+
+    <script>
+      const modal = document.getElementById("addBookModal");
+      const overlay = document.getElementById("modalOverlay");
+      const modalContent = document.getElementById("modalContent");
+
+      function openBookForm() {
+        modal.classList.remove("hidden");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeModal() {
+        modal.classList.add("hidden");
+        document.body.style.overflow = "";
+      }
+
+      // Close modal when clicking overlay
+      overlay.addEventListener("click", closeModal);
+
+      // Prevent modal content clicks from closing modal
+      modalContent.addEventListener("click", (e) => {
+        e.stopPropagation();
+      });
+
+      // Close modal when clicking close button
+      document.addEventListener("click", (e) => {
+        if (e.target.id === "closeBtn") {
+          closeModal();
+        }
+      });
+
+    </script>
+  </body>
+</html>

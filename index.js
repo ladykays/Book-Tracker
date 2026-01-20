@@ -54,7 +54,7 @@ app.get("/", async(req, res) => {
     console.log("MY BOOKS: ", myBooks);
     
     if (myBooks.length > 0) {
-      res.render("index.ejs", { 
+      res.render("layout", { 
         books: myBooks,
         renderStars: app.locals.renderStars,
       });
@@ -65,6 +65,10 @@ app.get("/", async(req, res) => {
     console.log(err);
   }
 });
+
+app.get("/add-book-form", (req, res) => {
+  res.render("addBookForm.ejs")
+})
 
 app.get("/recent", async(req, res) => {
   try {
@@ -107,8 +111,16 @@ app.post("/", async(req, res) => {
     )
     console.log("Cover URL: ", add_cover_url.rows);
     
+    // Redirect to home page after successful submission
+    res.redirect("/");
+
   } catch (err) {
-    console.log(err);
+    console.log("Error adding book:", err);
+    // Render the form again with error message
+    res.render("addBookForm.ejs", { 
+      error: "Failed to add book. Please try again.",
+      ...newBook 
+    });
   }
 })
 
