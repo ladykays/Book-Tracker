@@ -2,11 +2,14 @@ import express from "express";
 import bodyParser from "body-parser";
 import fetch from "node-fetch";
 import pool from "./db/db.js";
+import expressEjsLayouts from "express-ejs-layouts";
 
 const app = express();
 const port = 3000;
 
 app.set('view engine', 'ejs');
+app.use(expressEjsLayouts);
+app.set('layout', 'layout'); //specifies layout file
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
@@ -54,17 +57,21 @@ app.get("/", async(req, res) => {
     console.log("MY BOOKS: ", myBooks);
     
     if (myBooks.length > 0) {
-      res.render("index.ejs", { 
+      res.render("index", { 
         books: myBooks,
         renderStars: app.locals.renderStars,
       });
     } else {
-      res.render("noBooks.ejs");
+      res.render("noBooks");
     }
   } catch (err) {
     console.log(err);
   }
 });
+
+app.get("/add-book-form", (req, res) => {
+  res.render("addBookForm.ejs")
+})
 
 app.get("/recent", async(req, res) => {
   try {
@@ -107,8 +114,16 @@ app.post("/", async(req, res) => {
     )
     console.log("Cover URL: ", add_cover_url.rows);
     
+    // Redirect to home page after successful submission
+    res.redirect("/");
+
   } catch (err) {
-    console.log(err);
+    console.log("Error adding book:", err);
+    // Render the form again with error message
+    res.render("addBookForm.ejs", { 
+      error: "Failed to add book. Please try again.",
+      ...newBook 
+    });
   }
 })
 
