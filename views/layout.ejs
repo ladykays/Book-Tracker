@@ -31,11 +31,114 @@
     </div>
 
     <script>
-      const modal = document.getElementById("addBookModal");
-      const overlay = document.getElementById("modalOverlay");
-      const modalContent = document.getElementById("modalContent");
+      let modal, overlay, modalContent;
 
-      function openBookForm() {
+      document.addEventListener('DOMContentLoaded', function() {
+        // Initialize modal elements
+        modal = document.getElementById("addBookModal");
+        overlay = document.getElementById("modalOverlay");
+        modalContent = document.getElementById("modalContent");
+
+        const sortButtons = document.querySelectorAll('.sort-btn');
+        const booksContainer = document.getElementById('booksContainer');
+
+        //Only set up sorting if there is books
+        if (booksContainer && sortButtons.length > 0) {
+          sortButtons.forEach((button) => {
+            button.addEventListener('click', function() {
+              const sortType = this.getAttribute('data-sort');
+              sortBooks(sortType);
+
+              //update active button styling
+              sortButtons.forEach((btn) => {
+                btn.classList.remove('bg-blue-100', 'text-blue-700');
+                btn.classList.add('hover:bg-gray-100');
+              });
+              this.classList.add('bg-blue-100', 'text-blue-700')
+              this.classList.remove('hover:bg-gray-100');
+            });
+          });
+
+          // Initialize with recent sort on page load
+          const activeButton = document.querySelector('.sort-btn[data-sort="recent"]');
+          if (activeButton) {
+            sortBooks('recent');
+            activeButton.classList.add('bg-blue-100', 'text-blue-700');
+            activeButton.classList.remove('hover:bg-gray-100');
+          }
+        }
+
+        function sortBooks(sortType){
+          const bookCards = Array.from(document.querySelectorAll('.book-card'));
+
+          if (bookCards.length === 0) return;
+
+          bookCards.sort((a,b) => {
+            switch(sortType) {
+              case 'recent':
+                //Sort by most recent first
+                const dateA = parseInt(a.getAttribute('data-created')) || 0;
+                const dateB = parseInt(b.getAttribute('data-created')) || 0;
+                const idA = parseInt(a.getAttribute('data-id') || 0);
+        const idB = parseInt(b.getAttribute('data-id') || 0);
+                console.log('Recent sort:', { 
+                  dateA, dateB, 
+                  idA, idB,
+                  titleA: a.querySelector('h2')?.textContent, 
+                  titleB: b.querySelector('h2')?.textContent 
+                });
+
+                // First sort by date
+                if (dateB !== dateA) {
+                  return dateB - dateA; //newst first
+                }
+
+                // If dates are equal or null, sort by ID
+                return idB - idA;
+
+              case 'rating':
+                //Sort by highest rating first
+                const ratingA = parseFloat(a.getAttribute('data-rating')) || 0;
+                const ratingB = parseFloat(b.getAttribute('data-rating')) || 0;
+                console.log('Rating sort:', { ratingA, ratingB, titleA: a.querySelector('h2')?.textContent, titleB: b.querySelector('h2')?.textContent });
+                if (ratingB !== ratingA) {
+                  return ratingB - ratingA; //highest first
+                }
+                //If ratings are equal, sort most recent
+                return parseInt(b.getAttribute('data-created')) - parseInt(a.getAttribute('data-created'));
+
+              case 'title':
+                //Sort alphabetically
+                const titleA = a.getAttribute('data-title').toLocaleLowerCase();
+                const titleB = b.getAttribute('data-title').toLocaleLowerCase();
+                console.log('Title sort:', { titleA, titleB });
+                return titleA.localeCompare(titleB);
+
+              default:
+                return 0;  
+            }
+          });
+
+          // Clear and reappend sorted cards
+          booksContainer.innerHTML = '';
+          bookCards.forEach((card) => {
+            booksContainer.appendChild(card);
+          });
+        }
+
+        //for debugging
+        setTimeout(() => {
+  console.log('=== Checking ALL data-created values ===');
+  const cards = document.querySelectorAll('.book-card');
+  cards.forEach((card, index) => {
+    const title = card.querySelector('h2').textContent;
+    const created = card.getAttribute('data-created');
+    const date = new Date(parseInt(created));
+    console.log(`${index + 1}. "${title.substring(0, 30)}...": ${created} = ${date.toLocaleString()}`);
+  });
+}, 1000);
+      });
+        function openBookForm() {
         modal.classList.remove("hidden");
         document.body.style.overflow = "hidden";
       }
@@ -55,11 +158,15 @@
 
       // Close modal when clicking close button
       document.addEventListener("click", (e) => {
-        if (e.target.id === "closeBtn") {
+        if (e.target.id === "closeBtn" ||
+            e.target.id === "cancelBtn" ||
+            e.target.closest("#closeBtn") ||
+            e.target.closest("#cancelBtn")
+        ) {
           closeModal();
         }
       });
-
+      
     </script>
   </body>
 </html>

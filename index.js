@@ -38,10 +38,17 @@ async function fetchImage(url) {
 
 app.get("/", async(req, res) => {
   try {
+    const sortBy = req.query.sort || 'recent';
     const result = await pool.query(
-      "SELECT book.title, book.author, book.rating, book.notes, image.cover_url  FROM book JOIN image ON book.isbn=image.isbn;"
+      "SELECT book.id, book.title, book.author, book.rating, book.notes, image.cover_url, book.created_at  FROM book JOIN image ON book.isbn=image.isbn;"
     );
     console.log("Books: ", result.rows);
+
+    console.log("Books with dates:", result.rows.map(b => ({ 
+      title: b.title, 
+      created_at: b.created_at,
+      has_date: !!b.created_at 
+    })));
 
     let myBooks = [];
 
@@ -51,7 +58,8 @@ app.get("/", async(req, res) => {
         author: myBook.author, 
         rating: myBook.rating, 
         notes: myBook.notes, 
-        cover_url: myBook.cover_url 
+        cover_url: myBook.cover_url,
+        created_at: myBook.created_at
       });
     });
     console.log("MY BOOKS: ", myBooks);
@@ -60,6 +68,7 @@ app.get("/", async(req, res) => {
       res.render("index", { 
         books: myBooks,
         renderStars: app.locals.renderStars,
+        currentSort: sortBy,
       });
     } else {
       res.render("noBooks");

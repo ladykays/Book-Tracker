@@ -1,6 +1,28 @@
 <% if (books) { %> 
-  <% books.forEach((book) => { %>
-    <div class="flex w-full h-70 rounded-lg bg-gray-100 shadow overflow-hidden cursor-pointer" data-book="<%= JSON.stringify(book) %>">
+  <% books.forEach((book) => { 
+    // DEBUG: Log what we're getting
+    console.log('Book:', book.title, 'Created at:', book.created_at, 'Type:', typeof book.created_at);
+    let timestamp;
+    if (book.created_at) {
+      // Parse the date string from PostgreSQL
+      const date = new Date(book.created_at);
+      timestamp = date.getTime();
+      console.log('Parsed date:', date, 'Timestamp:', timestamp);
+    } else {
+      // Fallback: Use current time minus a random offset
+      timestamp = Date.now() - Math.floor(Math.random() * 10000000000);
+      console.log('No date, using fallback:', timestamp);
+    }
+  %>
+    <div
+       class="book-card flex w-full h-70 rounded-lg bg-gray-100 shadow overflow-hidden cursor-pointer" 
+       data-book="<%= JSON.stringify(book) %>"
+       data-title="<%= book.title.toLowerCase() %>"
+       data-rating="<%= book.rating || 0 %>"
+       //data-created="<%#= book.created_at ? new Date(book.created_at).getTime() : Date.now() %>"
+       data-created="<%= timestamp %>"
+       data-id="<%= book.id || 0 %>"
+    >
       <div dir="ltr" class=" overflow-hidden w-2/5">
         <!-- <img src="https://placehold.co/400x800/orange/white" alt="book cover" class="w-full h-full object-cover rounded-s-xl" /> -->
         <img src="<%= book.cover_url %>" alt="book cover" class="w-full h-full object-cover rounded-s-2xl" />
@@ -13,6 +35,11 @@
             <%- renderStars(book.rating) %>
           </div>
           <p class=""><%= book.notes %></p>
+          <% if (book.created_at) { %>
+            <p class="text-sm text-gray-500 mt-4">
+              Added: <%= new Date(book.created_at).toLocaleDateString() %>
+            </p>
+          <% } %>
 
         </div>
       </div>
