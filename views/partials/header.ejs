@@ -1,10 +1,9 @@
     <nav class="bg-gray-300 h-auto">
       <div class="flex justify-center items-center py-5">
-        <div class="flex justify-between items-center w-8/12">
-          <div class="flex flex-row gap-2 items-center">
+        <div class="flex justify-between items-center w-10/12 md:w-8/12">
+          <div class="flex flex-row xs:gap-1 md:gap-2 items-center">
             <svg
-              width="54px"
-              height="54px"
+              class="w-8 h-8 md:w-[54px] md:h-[54px]"
               viewBox="0 0 24 24"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -21,17 +20,16 @@
                 stroke-linejoin="round"
               />
             </svg>
-            <h1 class="text-2xl">My Book Tracker</h1>
+            <h1 class="xs:text-xl md:text-2xl">My Book Tracker</h1>
           </div>
 
           <button
-            class="flex items-center bg-blue-700 text-white font-medium px-5 py-3 cursor-pointer rounded-lg"
+            class="flex items-center bg-blue-700 text-white font-normal md:font-medium px-3 md:px-5 py-2 md:py-3 cursor-pointer rounded-lg"
             id="addBookBtn"
             onclick="openBookForm()"
           >
             <svg
-              width="24px"
-              height="24px"
+              class="w-4 h-4 md:w-[24px] md:h-[24px]"
               viewBox="0 0 24 24"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -47,7 +45,7 @@
                 />
               </g>
             </svg>
-            <p class="text-xxl">Add Book</p>
+            <p class="text-[14px] md:text-xl">Add Book</p>
           </button>
         </div>
       </div>

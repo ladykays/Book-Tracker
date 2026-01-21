@@ -2,11 +2,14 @@ import express from "express";
 import bodyParser from "body-parser";
 import fetch from "node-fetch";
 import pool from "./db/db.js";
+import expressEjsLayouts from "express-ejs-layouts";
 
 const app = express();
 const port = 3000;
 
 app.set('view engine', 'ejs');
+app.use(expressEjsLayouts);
+app.set('layout', 'layout'); //specifies layout file
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
@@ -54,12 +57,12 @@ app.get("/", async(req, res) => {
     console.log("MY BOOKS: ", myBooks);
     
     if (myBooks.length > 0) {
-      res.render("layout", { 
+      res.render("index", { 
         books: myBooks,
         renderStars: app.locals.renderStars,
       });
     } else {
-      res.render("noBooks.ejs");
+      res.render("noBooks");
     }
   } catch (err) {
     console.log(err);

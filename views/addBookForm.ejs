@@ -5,6 +5,7 @@
       <button 
         type="button" 
         id="closeBtn"
+        onclick="closeModal()"
         class="text-gray-600 hover:text-gray-900 hover:bg-gray-200 p-2 rounded-full transition duration-200"
         aria-label="Close modal"
       >
@@ -33,10 +34,13 @@
         <textarea name="notes"  class="w-full bg-blue-100 p-2 rounded-lg" rows="10"><%= locals.notes %></textarea>
       </div>
       <div class="mt-8 flex justify-end gap-5">
-        <button type="button" class="border-2 border-gray-300 text-gray-700 rounded-lg px-8 py-3">Cancel</button>
+        <button 
+          type="button" class="border-2 border-gray-300 text-gray-700 rounded-lg px-8 py-3 cursor-pointer"
+          onclick="closeModal()"
+        >Cancel</button>
         <button 
           type="submit"
-          class="bg-blue-700 text-white rounded-lg px-8 py-3"
+          class="bg-blue-700 text-white rounded-lg px-8 py-3 cursor-pointer"
            >Add Book</button>
       </div>
       
