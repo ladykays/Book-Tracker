@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="/css/bootstrap-icons/bootstrap-icons.css" />
     <link rel="stylesheet" href="./css/output.css" />
     <link rel="stylesheet" href="./css/style.css" />
+    <script src="/js/addBookModal.js"></script>
+    <script src="/js/bookModal.js"></script>
+    <script src="/js/sortBooks.js"></script>
   </head>
   <body>
     <%- include("partials/header.ejs") %>
@@ -33,142 +36,5 @@
 
     <!-- Book Details Modal -->
     <%- include("partials/bookModal.ejs") %>
-
-    <script>
-      //let modal, overlay, modalContent;
-
-      // Make openBookForm available globally
-      window.openAddBookModal = function () {
-        const modal = document.getElementById("addBookModal");
-        modal.classList.remove("hidden");
-        document.body.style.overflow = "hidden";
-      };
-
-      window.closeAddBookModal = function () {
-        const modal = document.getElementById("addBookModal");
-        modal.classList.add("hidden");
-        document.body.style.overflow = "";
-      };
-
-      document.addEventListener("DOMContentLoaded", () => {
-        const modal = document.getElementById("addBookModal");
-        const overlay = document.getElementById("modalOverlay");
-
-        //Close modal when overlay is clicked
-        overlay.addEventListener("click", closeAddBookModal);
-
-        //Close modal when escape key is pressed
-        document.addEventListener("keydown", (e) => {
-          if (e.key === "Escape" && !modal.classList.contains("hidden")) {
-            closeAddBookModal();
-          }
-        });
-      });
-
-      // Prevent modal content clicks from closing modal
-      const modalContent = document.getElementById("modalContent");
-      if (modalContent) {
-        modalContent.addEventListener("click", (e) => {
-          e.stopPropagation();
-        });
-      }
-
-      /* Load DOM content */
-      document.addEventListener("DOMContentLoaded", function () {
-        // Initialize modal elements
-        const modal = document.getElementById("addBookModal");
-        const overlay = document.getElementById("modalOverlay");
-        const modalContent = document.getElementById("modalContent");
-
-        const sortButtons = document.querySelectorAll(".sort-btn");
-        const booksContainer = document.getElementById("booksContainer");
-
-        function sortBooks(sortType) {
-          const bookCards = Array.from(document.querySelectorAll(".book-card"));
-
-          if (bookCards.length === 0) return;
-
-          bookCards.sort((a, b) => {
-            const dateA = parseInt(a.getAttribute("data-created")) || 0;
-            const dateB = parseInt(b.getAttribute("data-created"));
-            const idA = parseInt(a.getAttribute("data-id"));
-            const idB = parseInt(b.getAttribute("data-id"));
-
-            switch (sortType) {
-              case "recent":
-                /* //Sort by most recent first (data-id)
-                const idA = parseInt(a.getAttribute("data-id"));
-                const idB = parseInt(b.getAttribute("data-id"));
-                return idB -idA; */
-
-                //Sort by most recent first(using data-created)
-                // First sort by date
-                if (dateB !== dateA) {
-                  return dateB - dateA; //newst first
-                }
-
-                // If dates are equal or null, sort by ID
-                return idB - idA;
-
-              case "rating":
-                //Sort by highest rating first
-                const ratingA = parseFloat(a.getAttribute("data-rating"));
-                const ratingB = parseFloat(b.getAttribute("data-rating"));
-
-                if (ratingB !== ratingA) {
-                  return ratingB - ratingA; //highest first
-                }
-                //If ratings are equal, sort most recent
-                return dateB - dateA;
-
-              case "title":
-                //Sort alphabetically
-                const titleA = a.getAttribute("data-title").toLocaleLowerCase();
-                const titleB = b.getAttribute("data-title").toLocaleLowerCase();
-
-                return titleA.localeCompare(titleB);
-
-              default:
-                return 0;
-            }
-          });
-
-          // Clear and reappend sorted cards
-          booksContainer.innerHTML = "";
-          bookCards.forEach((card) => {
-            booksContainer.appendChild(card);
-          });
-        }
-
-        //Only set up sorting if there is books
-        if (booksContainer && sortButtons.length > 0) {
-          //Loop through each sort button adding a click event listener to each
-          sortButtons.forEach((button) => {
-            button.addEventListener("click", function () {
-              const sortType = this.getAttribute("data-sort"); //get the data-sort attribute value from the clicked button and assign it to sortType
-              sortBooks(sortType); //call the sortBooks function with the sortType vaalue
-
-              //Loop through all sort buttons to reset their styling
-              sortButtons.forEach((btn) => {
-                btn.classList.remove("bg-blue-100", "text-blue-700"); //remove active styling class
-                btn.classList.add("hover:bg-gray-100"); //add default hover styling
-              });
-              this.classList.add("bg-blue-100", "text-blue-700"); //add active styling to currently clicked button
-              this.classList.remove("hover:bg-gray-100"); //remove hover styling from active button
-            });
-          });
-
-          // Initialize with recent sort on page load
-          const activeButton = document.querySelector(
-            '.sort-btn[data-sort="recent"]',
-          );
-          if (activeButton) {
-            sortBooks("recent");
-            activeButton.classList.add("bg-blue-100", "text-blue-700");
-            activeButton.classList.remove("hover:bg-gray-100");
-          }
-        }
-      });
-    </script>
   </body>
 </html>
