@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   // Initialize modal elements
   const modal = document.getElementById("addBookModal");
-  const modalContent = document.getElementById("modalContent");
+  const addBookModalContent = document.getElementById("addBookModalContent");
 
   if (!modal) return;
 
@@ -30,8 +30,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Prevent modal content clicks from closing modal
-  if (modalContent) {
-    modalContent.addEventListener("click", (e) => {
+  if (addBookModalContent) {
+    addBookModalContent.addEventListener("click", (e) => {
       e.stopPropagation();
     });
   }

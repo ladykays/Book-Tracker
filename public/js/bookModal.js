@@ -20,6 +20,9 @@
       document.getElementById('modalBookTitle').textContent = book.title;
       document.getElementById('modalBookAuthor').textContent = book.author;
       document.getElementById('modalBookNotes').textContent = book.notes;
+
+      // Show the modal container
+      document.getElementById('bookModalContainer').classList.remove('hidden');
       
       
       // Render stars - ensure renderStars is available globally
@@ -34,8 +37,8 @@
 
     // Function to close modal
     function closeBookModal() {
-      const modal = document.getElementById('bookModal');
-      //modal.classList.remove('block');
+      const modal = document.getElementById('bookModalContainer');
+      modal.classList.remove('block');
       modal.classList.add('hidden');
     }
 
