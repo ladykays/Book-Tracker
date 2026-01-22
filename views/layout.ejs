@@ -6,9 +6,13 @@
     <title>Book Note Tracker</title>
     <link rel="stylesheet" href="/css/bootstrap-icons/bootstrap-icons.css" />
     <link rel="stylesheet" href="./css/output.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <script src="/js/addBookModal.js"></script>
+    <script src="/js/bookModal.js"></script>
+    <script src="/js/sortBooks.js"></script>
   </head>
   <body>
-    <%- include("partials/header.ejs") %> 
+    <%- include("partials/header.ejs") %>
 
     <!-- Dynamic content -->
     <%- body %>
@@ -19,47 +23,32 @@
       class="fixed inset-0 z-50 hidden flex items-center justify-center"
     >
       <!-- Semi-transparent overlay -->
-      <div class="absolute inset-0 bg-blue-900/50" id="modalOverlay"></div>
+      <div class="absolute inset-0 bg-blue-900/50" id="addModalOverlay"></div>
 
-      <!-- Modal content -->
+      <!-- BookForm Modal content -->
       <div
         class="relative z-10 bg-white rounded-xl shadow-2xl w-full max-w-2xl"
-        id="modalContent"
+        id="addBookModalContent"
       >
         <%- include("addBookForm.ejs") %>
       </div>
     </div>
 
-    <script>
-      const modal = document.getElementById("addBookModal");
-      const overlay = document.getElementById("modalOverlay");
-      const modalContent = document.getElementById("modalContent");
+    <!-- Book Details Modal -->
+    <div
+      id="bookModalContainer"
+      class="fixed inset-0 z-50 hidden flex items-center justify-center"
+    >
+      <!-- Semi-transparent overlay -->
+      <div class="absolute inset-0 bg-blue-900/50" id="bookModalOverlay"></div>
 
-      function openBookForm() {
-        modal.classList.remove("hidden");
-        document.body.style.overflow = "hidden";
-      }
-
-      function closeModal() {
-        modal.classList.add("hidden");
-        document.body.style.overflow = "";
-      }
-
-      // Close modal when clicking overlay
-      overlay.addEventListener("click", closeModal);
-
-      // Prevent modal content clicks from closing modal
-      modalContent.addEventListener("click", (e) => {
-        e.stopPropagation();
-      });
-
-      // Close modal when clicking close button
-      document.addEventListener("click", (e) => {
-        if (e.target.id === "closeBtn") {
-          closeModal();
-        }
-      });
-
-    </script>
+      <!-- Book Details Modal content -->
+      <div
+        class="relative z-10 bg-white rounded-xl shadow-2xl w-full max-w-2xl"
+        id="bookModalContent"
+      >
+        <%- include("partials/bookModal.ejs") %>
+      </div>
+    </div>
   </body>
 </html>
