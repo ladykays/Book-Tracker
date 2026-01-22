@@ -6,6 +6,7 @@
     <title>Book Note Tracker</title>
     <link rel="stylesheet" href="/css/bootstrap-icons/bootstrap-icons.css" />
     <link rel="stylesheet" href="./css/output.css" />
+    <link rel="stylesheet" href="./css/style.css" />
   </head>
   <body>
     <%- include("partials/header.ejs") %>
@@ -30,14 +31,54 @@
       </div>
     </div>
 
-    <script>
-      let modal, overlay, modalContent;
+    <!-- Book Details Modal -->
+    <%- include("partials/bookModal.ejs") %>
 
+    <script>
+      //let modal, overlay, modalContent;
+
+      // Make openBookForm available globally
+      window.openAddBookModal = function () {
+        const modal = document.getElementById("addBookModal");
+        modal.classList.remove("hidden");
+        document.body.style.overflow = "hidden";
+      };
+
+      window.closeAddBookModal = function () {
+        const modal = document.getElementById("addBookModal");
+        modal.classList.add("hidden");
+        document.body.style.overflow = "";
+      };
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const modal = document.getElementById("addBookModal");
+        const overlay = document.getElementById("modalOverlay");
+
+        //Close modal when overlay is clicked
+        overlay.addEventListener("click", closeAddBookModal);
+
+        //Close modal when escape key is pressed
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && !modal.classList.contains("hidden")) {
+            closeAddBookModal();
+          }
+        });
+      });
+
+      // Prevent modal content clicks from closing modal
+      const modalContent = document.getElementById("modalContent");
+      if (modalContent) {
+        modalContent.addEventListener("click", (e) => {
+          e.stopPropagation();
+        });
+      }
+
+      /* Load DOM content */
       document.addEventListener("DOMContentLoaded", function () {
         // Initialize modal elements
-        modal = document.getElementById("addBookModal");
-        overlay = document.getElementById("modalOverlay");
-        modalContent = document.getElementById("modalContent");
+        const modal = document.getElementById("addBookModal");
+        const overlay = document.getElementById("modalOverlay");
+        const modalContent = document.getElementById("modalContent");
 
         const sortButtons = document.querySelectorAll(".sort-btn");
         const booksContainer = document.getElementById("booksContainer");
@@ -48,60 +89,43 @@
           if (bookCards.length === 0) return;
 
           bookCards.sort((a, b) => {
+            const dateA = parseInt(a.getAttribute("data-created")) || 0;
+            const dateB = parseInt(b.getAttribute("data-created"));
+            const idA = parseInt(a.getAttribute("data-id"));
+            const idB = parseInt(b.getAttribute("data-id"));
+
             switch (sortType) {
               case "recent":
-                //Sort by most recent first (data-id)
+                /* //Sort by most recent first (data-id)
                 const idA = parseInt(a.getAttribute("data-id"));
                 const idB = parseInt(b.getAttribute("data-id"));
-                return idB -idA;
+                return idB -idA; */
 
-
-                //Sort by most recent first(data-created)
-                /* const dateA = parseInt(a.getAttribute("data-created")) || 0;
-                const dateB = parseInt(b.getAttribute("data-created")) || 0;
-                const idA = parseInt(a.getAttribute("data-id") || 0);
-                const idB = parseInt(b.getAttribute("data-id") || 0);
-                console.log("Recent sort:", {
-                  dateA,
-                  dateB,
-                  idA,
-                  idB,
-                  titleA: a.querySelector("h2")?.textContent,
-                  titleB: b.querySelector("h2")?.textContent,
-                });
-
+                //Sort by most recent first(using data-created)
                 // First sort by date
                 if (dateB !== dateA) {
                   return dateB - dateA; //newst first
                 }
 
                 // If dates are equal or null, sort by ID
-                return idB - idA; */
+                return idB - idA;
 
               case "rating":
                 //Sort by highest rating first
-                const ratingA = parseFloat(a.getAttribute("data-rating")) || 0;
-                const ratingB = parseFloat(b.getAttribute("data-rating")) || 0;
-                console.log("Rating sort:", {
-                  ratingA,
-                  ratingB,
-                  titleA: a.querySelector("h2")?.textContent,
-                  titleB: b.querySelector("h2")?.textContent,
-                });
+                const ratingA = parseFloat(a.getAttribute("data-rating"));
+                const ratingB = parseFloat(b.getAttribute("data-rating"));
+
                 if (ratingB !== ratingA) {
                   return ratingB - ratingA; //highest first
                 }
                 //If ratings are equal, sort most recent
-                return (
-                  parseInt(b.getAttribute("data-created")) -
-                  parseInt(a.getAttribute("data-created"))
-                );
+                return dateB - dateA;
 
               case "title":
                 //Sort alphabetically
                 const titleA = a.getAttribute("data-title").toLocaleLowerCase();
                 const titleB = b.getAttribute("data-title").toLocaleLowerCase();
-                console.log("Title sort:", { titleA, titleB });
+
                 return titleA.localeCompare(titleB);
 
               default:
@@ -143,51 +167,6 @@
             activeButton.classList.add("bg-blue-100", "text-blue-700");
             activeButton.classList.remove("hover:bg-gray-100");
           }
-        }
-
-        
-
-        //for debugging
-        setTimeout(() => {
-          console.log("=== Checking ALL data-created values ===");
-          const cards = document.querySelectorAll(".book-card");
-          cards.forEach((card, index) => {
-            const title = card.querySelector("h2").textContent;
-            const created = card.getAttribute("data-created");
-            const date = new Date(parseInt(created));
-            console.log(
-              `${index + 1}. "${title.substring(0, 30)}...": ${created} = ${date.toLocaleString()}`,
-            );
-          });
-        }, 1000);
-      });
-      function openBookForm() {
-        modal.classList.remove("hidden");
-        document.body.style.overflow = "hidden";
-      }
-
-      function closeModal() {
-        modal.classList.add("hidden");
-        document.body.style.overflow = "";
-      }
-
-      // Close modal when clicking overlay
-      overlay.addEventListener("click", closeModal);
-
-      // Prevent modal content clicks from closing modal
-      modalContent.addEventListener("click", (e) => {
-        e.stopPropagation();
-      });
-
-      // Close modal when clicking close button
-      document.addEventListener("click", (e) => {
-        if (
-          e.target.id === "closeBtn" ||
-          e.target.id === "cancelBtn" ||
-          e.target.closest("#closeBtn") ||
-          e.target.closest("#cancelBtn")
-        ) {
-          closeModal();
         }
       });
     </script>

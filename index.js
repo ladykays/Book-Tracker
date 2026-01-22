@@ -22,6 +22,31 @@ app.locals.renderStars = (rating) => {
   return stars;
 };
 
+app.locals.truncateText = (note) => {
+  if (!note || typeof note !== "string") {
+    return "";
+  };
+
+  // Truncate to 100 characters and add ellipsis
+  /* const trucatedNote = note.length > 40 ? note.slice(0, 40) + "..." : note;
+  return trucatedNote; */
+
+   // Trim the note
+  /* const trimmedNote = note.trim();
+  
+  if (trimmedNote.length <= 50) {
+    return trimmedNote;
+  }
+  
+  // Take first 100 characters and remove any trailing space
+  let truncated = trimmedNote.slice(0, 50).trim();
+  
+  // Add ellipsis directly without space
+  return truncated + '...'; */
+
+  return note.trim();
+}
+
 //Fetch image from API
 async function fetchImage(url) {
   try {
@@ -70,6 +95,7 @@ app.get("/", async(req, res) => {
         books: myBooks,
         renderStars: app.locals.renderStars,
         currentSort: sortBy,
+        truncateText: app.locals.truncateText
       });
     } else {
       res.render("noBooks");
