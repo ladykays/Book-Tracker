@@ -54,6 +54,7 @@ app.get("/", async(req, res) => {
 
     result.rows.map((myBook) => {
       myBooks.push({
+        id: myBook.id,
         title: myBook.title, 
         author: myBook.author, 
         rating: myBook.rating, 
