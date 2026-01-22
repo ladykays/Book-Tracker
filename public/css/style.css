@@ -1,0 +1,13 @@
+.note-preview {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* Ensure proper line height */
+  line-height: 1.4;
+  /* Set exact height for 3 lines */
+  max-height: calc(1.4em * 3);
+  /* Prevent word breaking issues */
+  word-break: break-word;
+}
