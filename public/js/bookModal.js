@@ -14,12 +14,19 @@
     // Function to open modal
     function openBookModal(book) {
       const modal = document.getElementById('bookModal');
+      const dateOptions = {
+        year: 'numeric', //shows full year
+        month: 'long', //shows full month name
+        day: 'numeric', //shows day as number
+      }
       
       // Populate modal with book data
       document.getElementById('modalBookCover').src = book.cover_url;
       document.getElementById('modalBookTitle').textContent = book.title;
       document.getElementById('modalBookAuthor').textContent = book.author;
+      document.getElementById('modalBookISBN').textContent = `ISBN: ${book.isbn}`;
       document.getElementById('modalBookNotes').textContent = book.notes;
+      document.getElementById('modalBookCreatedAt').textContent = `Added: ${new Date(book.created_at).toLocaleDateString('en-US', dateOptions)}`; // Format date as "Month Day, Year"
 
       // Show the modal container
       document.getElementById('bookModalContainer').classList.remove('hidden');

@@ -7,17 +7,17 @@
     <link rel="stylesheet" href="/css/bootstrap-icons/bootstrap-icons.css" />
     <link rel="stylesheet" href="./css/output.css" />
     <!-- <link rel="stylesheet" href="./css/style.css" /> -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
       rel="stylesheet"
-    />
+    /> -->
     <script src="/js/addBookModal.js"></script>
     <script src="/js/bookModal.js"></script>
     <script src="/js/sortBooks.js"></script>
   </head>
-  <body style="margin: 0; font-family: &quot;inter&quot;, sans-serif">
+  <body style="margin: 0;">
     <div class="min-h-screen bg-gray-100 w-full">
       <%- include("partials/header.ejs") %>
 
@@ -30,7 +30,7 @@
         class="fixed inset-0 z-50 hidden flex items-center justify-center"
       >
         <!-- Semi-transparent overlay -->
-        <div class="absolute inset-0 bg-blue-900/50" id="addModalOverlay"></div>
+        <div class="absolute inset-0 bg-gray-600/50" id="addModalOverlay"></div>
 
         <!-- BookForm Modal content -->
         <div
@@ -48,13 +48,13 @@
       >
         <!-- Semi-transparent overlay -->
         <div
-          class="absolute inset-0 bg-blue-900/50"
+          class="absolute inset-0 bg-gray-600/50"
           id="bookModalOverlay"
         ></div>
 
         <!-- Book Details Modal content -->
         <div
-          class="relative z-10 bg-white rounded-xl shadow-2xl w-full max-w-2xl"
+          class="relative z-10 bg-white rounded-xl shadow-2xl w-full max-w-4xl"
           id="bookModalContent"
         >
           <%- include("partials/bookModal.ejs") %>
