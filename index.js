@@ -17,7 +17,7 @@ app.use(express.static("public"));
 app.locals.renderStars = (rating) => {
   let stars = "";
   for (let i = 1; i <= 5; i++) { //count down from 5 so the filled stars are first
-    stars += i <= rating ? '<i class="bi bi-star-fill text-xl text-amber-400"></i>' : '<i class="bi bi-star text-xl"></i>'
+    stars += i <= rating ? '<i class="bi bi-star-fill text-xl text-amber-400"></i>' : '<i class="bi bi-star text-xl text-gray-300"></i>'
   }
   return stars;
 };

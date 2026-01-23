@@ -5,8 +5,8 @@
       let stars = "";
       for (let i = 1; i <= 5; i++) {
         stars += i <= rating 
-          ? '<i class="bi bi-star-fill text-xl text-amber-400"></i>' 
-          : '<i class="bi bi-star text-xl"></i>';
+          ? '<i class="bi bi-star-fill text-2xl text-amber-400"></i>' 
+          : '<i class="bi bi-star text-2xl text-gray-300"></i>';
       }
       return stars;
     }
