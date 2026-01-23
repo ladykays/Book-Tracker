@@ -16,13 +16,13 @@ app.use(express.static("public"));
 //render stars
 app.locals.renderStars = (rating) => {
   let stars = "";
-  for (let i = 5; i >= 1; i--) { //count down from 5 so the filled stars are first
+  for (let i = 1; i <= 5; i++) { //count down from 5 so the filled stars are first
     stars += i <= rating ? '<i class="bi bi-star-fill text-xl text-amber-400"></i>' : '<i class="bi bi-star text-xl"></i>'
   }
   return stars;
 };
 
-app.locals.truncateText = (note) => {
+/*app.locals.truncateText = (note) => {
   if (!note || typeof note !== "string") {
     return "";
   };
@@ -42,10 +42,10 @@ app.locals.truncateText = (note) => {
   let truncated = trimmedNote.slice(0, 50).trim();
   
   // Add ellipsis directly without space
-  return truncated + '...'; */
+  return truncated + '...'; 
 
   return note.trim();
-}
+}*/
 
 //Fetch image from API
 async function fetchImage(url) {
@@ -95,7 +95,7 @@ app.get("/", async(req, res) => {
         books: myBooks,
         renderStars: app.locals.renderStars,
         currentSort: sortBy,
-        truncateText: app.locals.truncateText
+        //truncateText: app.locals.truncateText
       });
     } else {
       res.render("noBooks");
