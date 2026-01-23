@@ -1,11 +1,11 @@
 
-<main class="flex flex-col justify-center items-center my-10">
-  <div class="flex justify-between items-center w-8/12 p-4">
-    <h3 class="font-semibold text-xl w-1/3">Your Books</h3>
-    <div class="flex justify-end items-center gap-8 w-2/3">
-      <p class="">Sort by:</p>
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+  <div class="flex items-center justify-between border-b border-gray-200 pb-4">
+    <h2 class="font-medium text-sm md:text-lg text-gray-900 mr-2">Your Books</h2>
+    <div class="flex items-center space-x-1">
+      <p class="text-sm text-gray-500 mr-2">Sort by:</p>
       <button 
-        class="sort-btn flex gap-2 px-4 py-2 rounded-lg hover:bg-gray-100 <%= (typeof currentSort !== 'undefined' && currentSort === 'recent') ? 'bg-blue-100 text-blue-700' : '' %>"
+        class="sort-btn flex items-center gap-1 px-3 py-1.5 text-sm rounded-md hover:bg-gray-100 <%= (typeof currentSort !== 'undefined' && currentSort === 'recent') ? 'bg-blue-100 text-blue-700' : '' %>"
         id="sortRecent"
         data-sort="recent"
       >
@@ -13,7 +13,7 @@
         <p>Recent</p>
       </button>
       <button 
-        class="sort-btn flex gap-2 px-4 py-2 rounded-lg hover:bg-gray-100 <%= (typeof currentSort !== 'undefined' && currentSort === 'rating') ? 'bg-blue-100 text-blue-700' : '' %>"
+        class="sort-btn flex items-center gap-1 px-3 py-1.5 text-sm rounded-md hover:bg-gray-100 <%= (typeof currentSort !== 'undefined' && currentSort === 'rating') ? 'bg-blue-100 text-blue-700' : '' %>"
         id="sortRating"
         data-sort="rating"
       >
@@ -21,7 +21,7 @@
         <p>Rating</p>
       </button>
       <button 
-        class="sort-btn flex gap-2 px-4 py-2 rounded-lg hover:bg-gray-100 <%= (typeof currentSort !== 'undefined' && currentSort === 'title') ? 'bg-blue-100 text-blue-700' : '' %>"
+        class="sort-btn flex items-center gap-1 px-3 py-1.5 text-sm rounded-md hover:bg-gray-100 <%= (typeof currentSort !== 'undefined' && currentSort === 'title') ? 'bg-blue-100 text-blue-700' : '' %>"
         id="sortTitle"
         data-sort="title"
       >
@@ -31,7 +31,7 @@
     </div>
   </div>
   <% if (books && books.length > 0) { %>
-    <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-8/12" id="booksContainer">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 mt-6" id="booksContainer">
       <%- include("partials/bookCard.ejs") %> 
     </div>
   <% } else { %> 
