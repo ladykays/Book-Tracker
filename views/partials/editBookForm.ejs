@@ -3,78 +3,12 @@
   class="bg-white w-full rounded-xl shadow-xl p-6 overflow-y-auto max-w-4xl max-h-[90vh]"
 >
   <div class="flex justify-between items-center mb-4">
-    <h2 class="text-xl font-bold text-gray-900">Book Details</h2>
+    <h2 class="text-2xl font-bold text-gray-900">Edit Book</h2>
     <div class="flex space-x-2">
-      <!-- Edit button -->
-      <button
-        class="p-1 rounded-full text-gray-400 hover:bg-gray-100 hover:text-gray-500"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="lucide lucide-square-pen h-5 w-5"
-          aria-hidden="true"
-        >
-          <path
-            d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
-          ></path>
-          <path
-            d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
-          ></path>
-        </svg>
-      </button>
-
-      <!-- Delete button -->
-      <form
-        id="deleteForm"
-        method="POST"
-        action="/delete"
-        style="display: inline"
-      >
-        <input type="hidden" name="id" id="deleteBookId" value="" />
-        <button
-          type="button"
-          class="p-1 rounded-full text-gray-400 hover:bg-gray-100 hover:text-red-500"
-          onclick="
-            event.preventDefault();
-            if (confirm('Are you sure you want to delete this book?')) {
-              this.form.submit();
-            } else {
-              return false;
-            }
-          "
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="lucide lucide-trash h-5 w-5"
-            aria-hidden="true"
-          >
-            <path d="M3 6h18"></path>
-            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
-            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
-          </svg>
-        </button>
-      </form>
-
       <!-- Close button -->
       <button
         class="p-1 rounded-full text-gray-400 hover:bg-gray-100 hover:text-gray-500"
-        onclick="closeBookModal()"
+        onclick="closeEditModal()"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -96,9 +30,11 @@
     </div>
   </div>
 
-  <div class="flex flex-col md:flex-row gap-6">
+  <form id="editForm" method="POST" action="/edit" class="flex flex-col md:flex-row gap-6">
+    <input type="hidden" name="id" id="editBookId" value="" />
+  
     <!-- left side - book cover -->
-    <div class="w=full md:w-1/3 flex-shrink-0">
+    <div class="w-full md:w-1/3 flex-shrink-0">
       <div class="aspect-[2/3] w-full bg-gray-100 rounded-md overflow-hidden">
         <img
           id="editBookCover"
@@ -107,35 +43,90 @@
           class="h-full w-full object-cover"
         />
       </div>
+      <div>
+    <label for="editIsbn" class="block text-sm font-medium text-gray-700 mb-1">
+      ISBN
+    </label>
+    <input
+      type="text"
+      id="editIsbn"
+      name="isbn"
+      class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+      placeholder="e.g., 9781234567890"
+    />
+  </div>
     </div>
 
     <!-- right side - Edit book form -->
-    <div class="w-2/3 p-4">
-      <form id="editForm" method="POST" action="/edit">
-        <input type="hidden" name="id" id="editBookId" value="">
-        <label for="title" class="block text-sm font-medium text-gray-700 mb-1"
-          >Title *</label
+    <div class="w-full md:w-2/3 space-y-4">
+      <div>
+        <label for="editTitle" class="block text-sm font-medium text-gray-700 mb-1">
+          Title *
+        </label>
+        <input
+          type="text"
+          id="editTitle"
+          name="title"
+          required
+          class="w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-lg font-semibold"
+          placeholder="Book Title"
+        />
+      </div>
+        
+      <div>
+        <label for="editAuthor" class="block text-sm font-medium text-gray-700 mb-1">
+          Author *
+        </label>
+        <input
+          type="text"
+          id="editAuthor"
+          name="author"
+          required
+          class="w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-lg"
+          placeholder="Author Name"
+        />
+      </div>
+      <div>
+        <label for="editRating" class="block text-sm font-medium text-gray-700 mb-2">
+          Rating
+        </label>
+        <div 
+          class="flex items-center space-x-1"  
+          id="starRatingInput"
         >
-        <h2 id="modalBookTitle" class="text-3xl font-bold mb-2"></h2>
-        <label for="author" class="block text-sm font-medium text-gray-700 mb-1"
-          >Author *</label
+          
+        </div>
+        <input type="hidden" id="editRating" name="rating" value="0">
+      </div>
+        
+      <div>
+        <label for="editNotes" class="block text-sm font-medium text-gray-700 mb-1">
+          Notes
+        </label>
+        <textarea
+          id="editNotes"
+          name="notes"
+          rows="8"
+          class="w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+          placeholder="Your thoughts, quotes, or review..."
+        ></textarea>
+      </div>
+      <div class="flex justify-end space-x-3 pt-4 border-t border-gray-200">
+        <button
+          type="button"
+          onclick="closeEditModal()"
+          class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50"
         >
-        <p id="modalBookAuthor" class="text-xl text-gray-600 mb-4"></p>
-        <label for="rating" class="block text-sm font-medium text-gray-700 mb-1"
-          >Rating *</label
+          Cancel
+        </button>
+        <button
+          type="submit"
+          class="px-4 py-2 bg-blue-600 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-blue-700"
         >
-        <div
-          id="modalBookRating"
-          class="flex items-center justify-center mt-3"
-        ></div>
-        <label for="notes" class="block text-sm font-medium text-gray-700 mb-1"
-          >Notes *</label
-        >
-        <p
-          id="modalBookNotes"
-          class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-        ></p>
-      </form>
+          Save Changes
+        </button>
+      </div>
     </div>
-  </div>
+  </form>
 </div>
+

@@ -187,7 +187,7 @@ app.post("/edit", async(req, res) => {
     // Update book
     const result = await pool.query(
       "UPDATE book SET title = $1, author = $2, rating = $3, isbn = $4, notes = $5 WHERE id = $6 ", 
-      [title, author, rating, isbn, notes, id] 
+      [title, author, ratingNum, isbn, notes, id] 
     );
 
     //update image table if ISBN changes
