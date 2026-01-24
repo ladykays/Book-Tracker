@@ -60,6 +60,26 @@
           <%- include("partials/bookModal.ejs") %>
         </div>
       </div>
+
+      <!-- Edit Book Modal -->
+      <div
+        id="editBookContainer"
+        class="fixed inset-0 z-50 hidden flex items-center justify-center"
+      >
+        <!-- Semi-transparent overlay -->
+        <div
+          class="absolute inset-0 bg-gray-600/50"
+          id="editBookOverlay"
+        ></div>
+
+        <!-- Book Details Modal content -->
+        <div
+          class="relative z-10 bg-white rounded-xl shadow-2xl w-full max-w-4xl"
+          id="editBookContent"
+        >
+          <%- include("partials/editBookForm.ejs") %>
+        </div>
+      </div>
     </div>
   </body>
 </html>
