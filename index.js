@@ -16,36 +16,11 @@ app.use(express.static("public"));
 //render stars
 app.locals.renderStars = (rating) => {
   let stars = "";
-  for (let i = 5; i >= 1; i--) { //count down from 5 so the filled stars are first
-    stars += i <= rating ? '<i class="bi bi-star-fill text-xl text-amber-400"></i>' : '<i class="bi bi-star text-xl"></i>'
+  for (let i = 1; i <= 5; i++) { //count down from 5 so the filled stars are first
+    stars += i <= rating ? '<i class="bi bi-star-fill text-xl text-amber-400"></i>' : '<i class="bi bi-star text-xl text-gray-300"></i>'
   }
   return stars;
 };
-
-app.locals.truncateText = (note) => {
-  if (!note || typeof note !== "string") {
-    return "";
-  };
-
-  // Truncate to 100 characters and add ellipsis
-  /* const trucatedNote = note.length > 40 ? note.slice(0, 40) + "..." : note;
-  return trucatedNote; */
-
-   // Trim the note
-  /* const trimmedNote = note.trim();
-  
-  if (trimmedNote.length <= 50) {
-    return trimmedNote;
-  }
-  
-  // Take first 100 characters and remove any trailing space
-  let truncated = trimmedNote.slice(0, 50).trim();
-  
-  // Add ellipsis directly without space
-  return truncated + '...'; */
-
-  return note.trim();
-}
 
 //Fetch image from API
 async function fetchImage(url) {
@@ -65,7 +40,7 @@ app.get("/", async(req, res) => {
   try {
     const sortBy = req.query.sort || 'recent';
     const result = await pool.query(
-      "SELECT book.id, book.title, book.author, book.rating, book.notes, image.cover_url, book.created_at  FROM book JOIN image ON book.isbn=image.isbn;"
+      "SELECT book.id, book.title, book.author, book.rating, book.notes, book.isbn, image.cover_url, book.created_at  FROM book JOIN image ON book.isbn=image.isbn;"
     );
     console.log("Books: ", result.rows);
 
@@ -84,6 +59,7 @@ app.get("/", async(req, res) => {
         author: myBook.author, 
         rating: myBook.rating, 
         notes: myBook.notes, 
+        isbn: myBook.isbn,
         cover_url: myBook.cover_url,
         created_at: myBook.created_at
       });
@@ -95,7 +71,6 @@ app.get("/", async(req, res) => {
         books: myBooks,
         renderStars: app.locals.renderStars,
         currentSort: sortBy,
-        truncateText: app.locals.truncateText
       });
     } else {
       res.render("noBooks");
@@ -105,16 +80,39 @@ app.get("/", async(req, res) => {
   }
 });
 
-app.get("/add-book-form", (req, res) => {
+/* app.get("/add-book-form", (req, res) => {
   res.render("addBookForm.ejs")
-})
+}) */
 
-app.get("/recent", async(req, res) => {
+/* app.get("/recent", async(req, res) => {
   try {
     result = await pool.query("SELECT * FROM book");
     console.log("Recent: ", result.rows)
   } catch (err) {
     console.log(err);
+  }
+}); */
+
+app.get("/edit/:id", async(req, res) => {
+  try {
+    const bookId = req.params.id;
+
+    //Get book with it's cover image
+    const result = await pool.query(
+      `SELECT  * FROM book
+      JOIN image ON book.isbn = image.isbn
+      WHERE book.id = $1
+      `, [bookId]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).send("Book not found");
+    };
+
+    res.render("editBookForm", {book: result.rows[0]});
+  } catch (err) {
+    console.log("Error fetching book for edit", err);
+    res.status(500).send("Error loading book");
   }
 });
 
@@ -161,7 +159,93 @@ app.post("/", async(req, res) => {
       ...newBook 
     });
   }
-})
+});
+
+app.post("/edit", async(req, res) => {
+  const {title, author, rating, isbn, notes, id} = req.body;
+
+   // Basic validation
+  if (!title || !author || !id) {
+    return res.status(400).send("Title, author, and ID are required");
+  }
+  
+  // Convert rating to number
+  const ratingNum = parseInt(rating) || 0;
+
+  try {
+    //get current ISBN from database
+    const currentBookEntry = await pool.query(
+      "SELECT isbn FROM book WHERE id = $1", [id]
+    );
+
+    if (currentBookEntry.rows.length === 0) {
+      return res.status(404).send("Book not found");
+    };
+
+    const originalIsbn = currentBookEntry.rows[0].isbn;
+
+    // Update book
+    const result = await pool.query(
+      "UPDATE book SET title = $1, author = $2, rating = $3, isbn = $4, notes = $5 WHERE id = $6 ", 
+      [title, author, ratingNum, isbn, notes, id] 
+    );
+
+    //update image table if ISBN changes
+    if (originalIsbn !== isbn) {
+      try {
+        //try to fetch new cover image
+        const key = "ISBN";
+        const size = "M";
+        const cover_url = await fetchImage(`https://covers.openlibrary.org/b/${key}/${isbn}-${size}.jpg`);
+
+        //update with new cover
+        await pool.query(
+          "UPDATE image SET isbn = $1, cover_url = $2 WHERE isbn = $3",
+          [isbn, cover_url, originalIsbn]
+        );
+      } catch (err) {
+        console.log("Could not fetch new book cover, updating ISBN only", err);
+        await pool.query(
+          "UPDATE image SET isbn = $1 WHERE isbn = $2", [isbn, originalIsbn]
+        );
+      }
+      
+    };
+    res.redirect("/");
+  } catch(err) {
+    console.log("Error editing book:", err);
+    res.status(500).send("Error updating book");
+  }
+});
+
+app.post("/delete", async(req, res) => {
+  const itemForDeletion = req.body.id;
+  console.log("Delete item ID: ", itemForDeletion);
+
+  try {
+    //get ISBN for book to be deleted
+    const bookResult = await pool.query("SELECT isbn FROM book WHERE id = $1;", [itemForDeletion]);
+
+    if (bookResult.rows.length === 0) {
+      return res.status(404).send("Book not found");
+    };
+
+    const isbn = bookResult.rows[0].isbn;
+
+    //delete item from image table first
+    await pool.query("DELETE FROM image WHERE isbn = $1", [isbn]);
+
+    //delete book from book table
+    await pool.query("DELETE FROM book WHERE id = $1;", [itemForDeletion]);
+
+    console.log("Book deleted successfully");
+    res.redirect("/");
+  } catch (err) {
+    console.error("Error deleting book:", err);
+    res.status(500).send("Error deleting book: " + err.message);
+  }
+  
+});
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);

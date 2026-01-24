@@ -1,47 +1,42 @@
 <% if (books) { %> 
   <% books.forEach((book) => { 
-    // DEBUG: Log what we're getting
     console.log('Book:', book.title, 'Created at:', book.created_at, 'Type:', typeof book.created_at);
+
     let timestamp;
     if (book.created_at) {
       // Parse the date string from PostgreSQL
       const date = new Date(book.created_at);
       timestamp = date.getTime();
-      console.log('Parsed date:', date, 'Timestamp:', timestamp);
     } else {
       // Fallback: Use current time minus a random offset
       timestamp = Date.now() - Math.floor(Math.random() * 10000000000);
-      console.log('No date, using fallback:', timestamp);
     }
   %>
     <div
-       class="book-card flex w-full h-70 rounded-lg bg-gray-100 shadow overflow-hidden cursor-pointer" 
+       class="book-card flex w-full  rounded-lg bg-white shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition-shadow" 
        data-book="<%= JSON.stringify(book) %>"
        data-title="<%= book.title.toLowerCase() %>"
        data-rating="<%= book.rating %>"
        data-created="<%= timestamp %>"
        data-id="<%= book.id %>"
     >
-      <div dir="ltr" class=" overflow-hidden w-2/5">
-        <!-- <img src="https://placehold.co/400x800/orange/white" alt="book cover" class="w-full h-full object-cover rounded-s-xl" /> -->
-        <img src="<%= book.cover_url %>" alt="book cover" class="w-full h-full object-cover rounded-s-2xl" />
-      </div>
-      <div dir="rtl"  class="text-left w-3/5">
-        <div class="rounded-s-lg p-4">
-          <h2 class="text-2xl font-medium "><%= book.title %></h2>
-          <p class="font-light"><%= book.author %></p>
-          <div class="">
+      <div class="w-full flex">
+        <div  class="overflow-hidden w-1/3 flex-shrink-0">
+          <img src="<%= book.cover_url %>" alt="book cover" class="w-full h-full object-cover" />
+        </div>
+        <div class="w-2/3 p-4">
+          <h3 class="text-gray-900 line-clamp-2 text-xl font-medium "><%= book.title %></h3>
+          <p class="text-sm text-gray-600 mt-1"><%= book.author %></p>
+          <div class="flex items-center mt-2">
             <%- renderStars(book.rating) %>
           </div>
-          <p class="note-preview mt-2"><%#= book.notes %><%= truncateText(book.notes) %></p>
-          <% if (book.created_at) { %>
-            <p class="text-sm text-gray-500 mt-4">
+          <p class="text-sm text-gray-500 mt-2 line-clamp-5 flex-grow"><%= book.notes %></p>
+          <p class="text-xs text-gray-400 mt-4">
               Added: <%= new Date(book.created_at).toLocaleDateString() %>
-            </p>
-          <% } %>
-
+          </p>
         </div>
       </div>
+      
     </div> 
   <% }) %>
 <% } %> 
