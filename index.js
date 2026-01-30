@@ -22,6 +22,37 @@ app.locals.renderStars = (rating) => {
   return stars;
 };
 
+// Automatically create tables when app starts
+async function initDatabase() {
+  try {
+    // Create tables if they don't exist
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS book (
+        id SERIAL PRIMARY KEY,
+        title VARCHAR(255) NOT NULL,
+        author VARCHAR(255) NOT NULL,
+        rating INTEGER CHECK (rating >= 0 AND rating <= 5),
+        notes TEXT,
+        isbn VARCHAR(13) UNIQUE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+    
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS image (
+        id SERIAL PRIMARY KEY,
+        isbn VARCHAR(13) REFERENCES book(isbn) ON DELETE CASCADE,
+        cover_url TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+    
+    console.log('Database tables ready!');
+  } catch (err) {
+    console.error('Database initialization error:', err);
+  }
+};
+
 //Fetch image from API
 async function fetchImage(url) {
   try {
@@ -248,6 +279,7 @@ app.post("/delete", async(req, res) => {
   
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', async () => {
   console.log(`Server running on http://localhost:${PORT}`);
+  await initDatabase() //initialize databse on startup
 });
