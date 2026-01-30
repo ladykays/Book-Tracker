@@ -8,6 +8,9 @@ const { Pool } = pg; //extracts the Pool class from the pg module - pg.Pool. See
 //create a new pool instance.
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false // Required for Render PostgreSQL
+  }
 })
 
 export default pool;
