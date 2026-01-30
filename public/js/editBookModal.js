@@ -2,7 +2,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   // Function to set star rating
   function setRating(rating) {
-    const stars = document.querySelectorAll("#starRatingInput .star-btn");
+    const stars = document.querySelectorAll("#editStarRatingInput .star-btn");
     const ratingInput = document.getElementById("editRating");
 
     // Update visual stars
@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Function to create star buttons
   function createStarButtons() {
-    const starContainer = document.getElementById("starRatingInput");
+    const starContainer = document.getElementById("editStarRatingInput");
     starContainer.innerHTML = "";
 
     for (let i = 1; i <= 5; i++) {
@@ -49,9 +49,14 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("editTitle").value = book.title;
     document.getElementById("editAuthor").value = book.author;
     document.getElementById("editNotes").value = book.notes || "";
-    document.getElementById("editRating").value = book.rating || 0;
+    //document.getElementById("editRating").value = book.rating || 0;
     document.getElementById("editBookCover").src = book.cover_url;
     document.getElementById('editIsbn').value = book.isbn;
+    
+    const ratingInput = document.getElementById("editRating");
+    if (ratingInput) {
+      ratingInput.value = book.rating || 0;
+    }
 
     // Create star buttons if not already created
     createStarButtons();
