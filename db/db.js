@@ -17,9 +17,20 @@ const pool = new Pool({
   // SSL configuration that varies by environment:
   // - Production: Must use SSL with self-signed certificate acceptance
   // - Development: No SSL needed for local database connections
-  ssl: process.env.NODE_ENV === 'production' 
-    ? { rejectUnauthorized: false } // Accept any certificate (required for Render PostgreSQL)
-    : false // No SSL for local development
+  
+  //This is for neon
+  ssl: process.env.NODE_ENV === 'production' || process.env.DATABASE_URL.includes('neon.tech')
+    ? { 
+        rejectUnauthorized: false,
+        require: true 
+      }
+    : false
+    
+  //This is the setting for render
+  /* ssl: process.env.NODE_ENV === 'production' 
+    ? { 
+      rejectUnauthorized: false, } // Accept any certificate (required for Render PostgreSQL)
+    : false // No SSL for local development */
 });
 
 export default pool;
