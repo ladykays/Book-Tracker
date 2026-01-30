@@ -5,12 +5,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!modal) return;
 
-  window.openAddBookModal = () => {
+  function openAddBookModal() {
     modal.classList.remove("hidden");
     document.body.style.overflow = "hidden";
   };
 
-  window.closeAddBookModal = () => {
+  function closeAddBookModal() {
     modal.classList.add("hidden");
     document.body.style.overflow = "";
   };
@@ -35,4 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
       e.stopPropagation();
     });
   }
+
+  window.openAddBookModal = openAddBookModal;
+  window.closeAddBookModal = closeAddBookModal;
 });
