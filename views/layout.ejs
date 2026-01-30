@@ -45,7 +45,7 @@
       <!-- Book Details Modal -->
       <div
         id="bookModalContainer"
-        class="fixed inset-0 z-50 hidden flex items-center justify-center"
+        class="fixed inset-0 z-50 hidden"
       >
         <!-- Semi-transparent overlay -->
         <div
@@ -53,19 +53,22 @@
           id="bookModalOverlay"
         ></div>
 
-        <!-- Book Details Modal content -->
-        <div
-          class="relative z-10 bg-white rounded-xl shadow-2xl w-full max-w-4xl"
-          id="bookModalContent"
-        >
-          <%- include("partials/bookModal.ejs") %>
+        <!-- Flex container for centering -->
+        <div class="absolute inset-0 flex items-center justify-center p-4">
+          <!-- Book Details Modal content -->
+          <div
+            class="relative z-10 bg-white rounded-xl shadow-2xl w-full max-w-4xl"
+            id="bookModalContent"
+          >
+            <%- include("partials/bookModal.ejs") %>
+          </div>
         </div>
       </div>
 
       <!-- Edit Book Modal -->
       <div
         id="editBookContainer"
-        class="fixed inset-0 z-50 hidden flex items-center justify-center"
+        class="fixed inset-0 z-50 hidden"
       >
         <!-- Semi-transparent overlay -->
         <div
@@ -73,12 +76,15 @@
           id="editBookOverlay"
         ></div>
 
-        <!-- Edit Book Modal content -->
-        <div
-          class="relative z-10 bg-white rounded-xl shadow-2xl w-full max-w-4xl"
-          id="editBookContent"
-        >
-          <%- include("partials/editBookForm.ejs") %>
+        <!-- Flex container for centering -->
+        <div class="absolute inset-0 flex items-center justify-center p-4">
+          <!-- Edit Book Modal content -->
+          <div
+            class="relative z-10 bg-white rounded-xl shadow-2xl w-full max-w-4xl"
+            id="editBookContent"
+          >
+            <%- include("partials/editBookForm.ejs") %>
+          </div>
         </div>
       </div>
     </div>
