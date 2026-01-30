@@ -125,6 +125,7 @@ app.post("/", async(req, res) => {
     isbn: req.body.isbn,
     notes: req.body.notes,
   };
+  //const ratingNum = parseInt(rating) || 0;
 
   //variables for the API
   const key = "ISBN"; //can be any one of ISBN, OCLC, LCCN, OLID and ID (case-insensitive)
