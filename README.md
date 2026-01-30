@@ -30,6 +30,12 @@ A personal digital library that helps me keep track of my reading journey.
 ## 📜 License
 This project is open source and available under the MIT License.
 
+## 📋 Planned Features
+
+### 👥 User Accounts & Personalization
+- **User Registration & Authentication**: Allow users to create accounts and log in securely
+- **Personal Bookshelves**: Each user maintains their own collection of books and reading history 
+
 ## 🌐 Live Application
 [My Reading Journal](https://www.myreadingjournal.kre8tivedev.co.uk)
 
