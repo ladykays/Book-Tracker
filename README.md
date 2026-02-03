@@ -50,7 +50,9 @@ This project is open source and available under the MIT License.
 * Database hosted on Neon.tech as render has limitations
 
 ### Reference Materials:
-* [Express](https://expressjs.com/en/starter/hello-world.html)
-* [Tailwind CSS](https://tailwindcss.com/docs/installation/tailwind-cli)
+* [Express](https://expressjs.com/en/starter/installing.html)
+* [Node.js](https://nodejs.org/docs/latest/api/)
+* [PostgreSQL](https://www.postgresql.org/docs/current/index.html)
 * [Node Postgres](https://node-postgres.com/apis/pool)
+* [Tailwind CSS](https://tailwindcss.com/docs/installation/tailwind-cli)
 * [Deployment](https://www.freecodecamp.org/news/how-to-deploy-nodejs-application-with-render/)
